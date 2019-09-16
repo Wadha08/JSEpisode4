@@ -5,8 +5,13 @@
  * - returns the book object that matches that id
  * - returns undefined if no matching book is found
  ****************************************************************/
-function getBookById(bookId, books) {
-  // Your code goes here
+
+
+ function getBookById(bookId, books) {
+      let found = books.find(function(book) {
+        return book.id === bookId;
+      });
+       return found
 }
 
 /**************************************************************
@@ -17,6 +22,10 @@ function getBookById(bookId, books) {
  * - returns undefined if no matching author is found
  ****************************************************************/
 function getAuthorByName(authorName, authors) {
+  let found = authors.find(function(author) {
+    return author.name.toLowerCase() === authorName.toLowerCase();
+  });
+   return found
   // Your code goes here
 }
 
@@ -27,8 +36,11 @@ function getAuthorByName(authorName, authors) {
  *    [{ author: <NAME>, bookCount: <NUMBER_OF_BOOKS> }]
  ****************************************************************/
 function bookCountsByAuthor(authors) {
+  let a = authors.map(author => {
+    return {author: author.name, bookCount: author.books.length}})
   // Your code goes here
-}
+  return a
+  }
 
 /**************************************************************
  * booksByColor(books):
@@ -39,11 +51,20 @@ function bookCountsByAuthor(authors) {
  ****************************************************************/
 function booksByColor(books) {
   const colors = {};
+  books.forEach(book => {
+    if (colors[book.color])
+    {
+      colors[book.color].push(book.title)
+    }
+    else
+    {
+      colors[book.color]=[]
+      colors[book.color].push(book.title)
+    }
+  })
+  return colors
+  }
 
-  // Your code goes here
-
-  return colors;
-}
 
 /**************************************************************
  * titlesByAuthorName(authorName, authors, books):
@@ -54,7 +75,14 @@ function booksByColor(books) {
  *    ["The Hitchhikers Guide", "The Meaning of Liff"]
  ****************************************************************/
 function titlesByAuthorName(authorName, authors, books) {
-  // Your code goes here
+  var author = getAuthorByName(authorName, authors)
+      let list = []
+      author.books.forEach(book => {
+        let b = books[book]
+        list.push(b.title)
+      })
+      return list;
+
 }
 
 /**************************************************************
